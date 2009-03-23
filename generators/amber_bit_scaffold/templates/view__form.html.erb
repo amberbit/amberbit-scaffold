@@ -1,0 +1,17 @@
+<%% form_for(@<%= singular_name %>) do |f| %>
+  <%%= f.error_messages %>
+
+  <fieldset>
+    <legend><%%= t('<%= singular_name %>', :count => 1).humanize %></legend>
+
+<% for attribute in attributes -%>
+    <div class="required">
+      <%%= f.label :<%= attribute.name %>, t('<%= "attribute.#{attribute.column.name}" %>') %>
+      <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+    </div>
+<% end -%>
+
+    <hr />
+    <%%= f.submit t('save') %>
+  </fieldset>
+<%% end %>

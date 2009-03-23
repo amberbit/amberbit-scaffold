@@ -1,0 +1,30 @@
+<h1><%%= t('<%= singular_name %>.listing') %></h1>
+
+<%% pagination = will_paginate %>
+<%%= pagination %><br />
+
+<table class="styled wide">
+  <tr>
+<% for attribute in attributes -%>
+    <th><%%= t('<%= "attribute.#{attribute.column.name}" %>') %></th>
+<% end -%>
+    <th></th>
+  </tr>
+
+<%% for <%= singular_name %> in @<%= plural_name %> %>
+  <tr class="<%%= cycle('odd', 'even') %>">
+<% for attribute in attributes -%>
+    <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+<% end -%>
+    <td>
+      <%%= link_to t('show'), <%= singular_name %> %>
+      <%%= link_to t('edit'), edit_<%= singular_name %>_path(<%= singular_name %>) %>
+      <%%= link_to t('delete'), <%= singular_name %>, :confirm => t('confirm_deletion'), :method => :delete %>
+    </td>
+  </tr>
+<%% end %>
+</table>
+
+<%%= pagination %><br />
+
+<%%= link_to t('<%= singular_name %>.new'), new_<%= singular_name %>_path %>
