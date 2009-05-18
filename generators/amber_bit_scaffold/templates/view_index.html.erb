@@ -1,11 +1,13 @@
 <h1><%%= t('<%= singular_name %>.listing') %></h1>
 
-<%% pagination = will_paginate %>
+<%% searchable_form -%>
+
 <%%= pagination %><br />
 
 <table class="styled wide">
   <tr>
-<% for attribute in attributes -%>
+    <%%= sortable_th :<%= attributes.first.column.name %> %>
+<% for attribute in attributes[1, attributes.size] -%>
     <th><%%= t('<%= "attribute.#{attribute.column.name}" %>') %></th>
 <% end -%>
     <th></th>
@@ -13,7 +15,8 @@
 
 <%% for <%= singular_name %> in @<%= plural_name %> %>
   <tr class="<%%= cycle('odd', 'even') %>">
-<% for attribute in attributes -%>
+    <td><%%=searchable_h <%= singular_name %>.<%= attributes.first.name %> %></td>
+<% for attribute in attributes[1, attributes.size] -%>
     <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
 <% end -%>
     <td>

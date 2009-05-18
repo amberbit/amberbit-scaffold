@@ -1,7 +1,12 @@
 class <%= controller_class_name %>Controller < ApplicationController
+  sortable :columns => [:<%= attributes.first.column.name %>]
+  searchable :columns => [:<%= attributes.first.column.name %>]
+
   # GET /<%= plural_name %>
   def index
-    @<%= plural_name %> = <%= class_name %>.paginate(:page => params[:page], :per_page => 10)
+    @<%= plural_name %> = <%= class_name %>.order(sortable_order_sql).
+      paginate(:page => params[:page], :per_page => 10,
+               :conditions => searchable_conditions)
   end
 
   # GET /<%= plural_name %>/1
