@@ -3,7 +3,6 @@
   <b><%%= t('<%= "attribute.#{attribute.column.name}" %>') %>:</b>
   <%%=h @<%= singular_name %>.<%= attribute.name %> %>
 </p>
-
 <% end -%>
 
 <%%= link_to t('edit'), edit_<%= singular_name %>_path(@<%= singular_name %>) %> |
