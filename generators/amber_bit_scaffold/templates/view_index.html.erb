@@ -20,10 +20,13 @@
     <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
 <% end -%>
     <td>
-      <%%= link_to t('show'), <%= singular_name %>_path(<%= singular_name %>) %>
-      <%%= link_to t('edit'), edit_<%= singular_name %>_path(<%= singular_name %>) %>
-      <%%= link_to t('delete'), <%= singular_name %>_path(<%= singular_name %>),
-        :confirm => t('confirm_deletion'), :method => :delete %>
+      <%%= link_to image_tag('icons/show.gif', :alt => t('show')),
+        <%= singular_name %>_path(<%= singular_name %>) %>
+      <%%= link_to image_tag('icons/edit.gif', :alt => t('edit')),
+        edit_<%= singular_name %>_path(<%= singular_name %>) %>
+      <%%= link_to image_tag('icons/delete.gif', :alt => t('delete')),
+        <%= singular_name %>_path(<%= singular_name %>), :confirm => t('confirm_deletion'),
+        :method => :delete %>
     </td>
   </tr>
 <%% end %>
