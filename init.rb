@@ -24,17 +24,18 @@ class ::ActiveRecord::Base
 end
 
 # include Sortable and Searchable into all controllers
-class ::ApplicationController < ActionController::Base
-  class << self
-    alias_method :amberbit_scaffold_original_inherited, :inherited
-  end
+#class ::ApplicationController < ActionController::Base
+#  class << self
+#    alias_method :amberbit_scaffold_original_inherited, :inherited
+#  end
 
-  def self.inherited(subclass)
-    amberbit_scaffold_original_inherited(subclass)
+#  def self.inherited(subclass)
+#    amberbit_scaffold_original_inherited(subclass)
 
-    subclass.instance_eval do
-      include Sortable::Controller
-      include Searchable::Controller
-    end
-  end
-end
+#    subclass.instance_eval do
+#      include Sortable::Controller
+#      include Searchable::Controller
+#    end
+#  end
+#end
+
