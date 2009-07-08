@@ -25,7 +25,7 @@ module Sortable::Controller
       @sort_order.upcase!
     end
 
-    order_sql = "#{@sort_by} #{@sort_order}"
+    order_sql = "LOWER(#{@sort_by}) #{@sort_order}"
   end
 
   module ClassMethods
@@ -41,3 +41,4 @@ module Sortable::Controller
     end
   end
 end
+
