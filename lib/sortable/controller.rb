@@ -1,7 +1,7 @@
 module Sortable::Controller
   def self.included(klass)
     klass.extend ClassMethods
-    klass.cattr_accessor :sortable_default_column, :sortable_columns
+    klass.cattr_accessor :sortable_default_column, :sortable_columns, :sortable_default_order
   end
 
   protected
@@ -20,7 +20,7 @@ module Sortable::Controller
     end
 
     if @sort_order.blank?
-      @sort_order = 'ASC'
+      @sort_order = sortable_default_order.to_s.upcase
     else
       @sort_order.upcase!
     end
@@ -35,6 +35,12 @@ module Sortable::Controller
         options[:default_column].to_s
       else
         options[:columns].first
+      end
+
+      if options[:default_order] = :desc
+        self.sortable_default_order = :desc
+      else
+        self.sortable_default_order = :asc
       end
 
       self.sortable_columns = options[:columns]
