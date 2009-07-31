@@ -1,7 +1,7 @@
 module Sortable::Controller
   def self.included(klass)
     klass.extend ClassMethods
-    klass.cattr_accessor :sortable_default_column, :sortable_columns, :sortable_default_order
+    klass.cattr_accessor :sortable_default_column, :sortable_columns, :sortable_default_order, :table
   end
 
   protected
@@ -24,8 +24,11 @@ module Sortable::Controller
     else
       @sort_order.upcase!
     end
-
-    order_sql = "LOWER(#{@sort_by}) #{@sort_order}"
+    if self.table
+      order_sql = "LOWER(#{self.table}.#{@sort_by}) #{@sort_order}"
+    else
+      order_sql = "LOWER(#{@sort_by}) #{@sort_order}"
+    end
   end
 
   module ClassMethods
@@ -37,13 +40,14 @@ module Sortable::Controller
         options[:columns].first
       end
 
-      if options[:default_order] = :desc
+      if options[:default_order] == :desc
         self.sortable_default_order = :desc
       else
         self.sortable_default_order = :asc
       end
 
       self.sortable_columns = options[:columns]
+      self.table = options[:table]
     end
   end
 end
