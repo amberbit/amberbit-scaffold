@@ -1,38 +1,46 @@
 <h1><%%= t('<%= singular_name %>.index') %></h1>
 
-<%% searchable_form -%>
+<%% if @<%= plural_name %>.empty? -%>
+  <p><%%= t('no_data') %></p>
+<%% else -%>
+  <%% searchable_form -%>
 
-<%%= pagination %><br />
+  <%%= pagination %><br />
 
-<table>
-  <tr>
-    <%%= sortable_th :<%= attributes.first.column.name %> %>
+  <table>
+    <tr>
+      <%%= sortable_th :<%= attributes.first.column.name %> %>
 <% for attribute in attributes[1, attributes.size] -%>
-    <th><%%= t('<%= "attribute.#{attribute.column.name}" %>') %></th>
+      <th><%%= t('<%= "attribute.#{attribute.column.name}" %>') %></th>
 <% end -%>
-    <th></th>
-  </tr>
+      <th></th>
+    </tr>
 
-<%% for <%= singular_name %> in @<%= plural_name %> %>
-  <tr class="<%%= cycle('odd', 'even') %>">
-    <td><%%=searchable_h <%= singular_name %>.<%= attributes.first.name %> %></td>
+  <%% for <%= singular_name %> in @<%= plural_name %> -%>
+    <tr class="<%%= cycle('odd', 'even') %>">
+      <td><%%=searchable_h <%= singular_name %>.<%= attributes.first.name %> %></td>
 <% for attribute in attributes[1, attributes.size] -%>
-    <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+<% if attribute.name =~ /_id\Z/ -%>
+      <td><%%=h <%= singular_name %>.<%= attribute.name.sub(/_id\Z/, '') %>.name %></td>
+<% else -%>
+      <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
 <% end -%>
-    <td>
-      <%%= link_to image_tag('icons/show.gif', :alt => t('show')),
-        <%= singular_name %>_path(<%= singular_name %>) %>
-      <%%= link_to image_tag('icons/edit.gif', :alt => t('edit')),
-        edit_<%= singular_name %>_path(<%= singular_name %>) %>
-      <%%= link_to image_tag('icons/delete.gif', :alt => t('delete')),
-        <%= singular_name %>_path(<%= singular_name %>), :confirm => t('confirm_deletion'),
-        :method => :delete %>
-    </td>
-  </tr>
-<%% end %>
-</table>
+<% end -%>
+      <td>
+        <%%= link_to image_tag('icons/show.gif', :alt => t('show')),
+          <%= singular_name %>_path(<%= singular_name %>) %>
+        <%%= link_to image_tag('icons/edit.gif', :alt => t('edit')),
+          edit_<%= singular_name %>_path(<%= singular_name %>) %>
+        <%%= link_to image_tag('icons/delete.gif', :alt => t('delete')),
+          <%= singular_name %>_path(<%= singular_name %>), :confirm => t('confirm_deletion'),
+          :method => :delete %>
+      </td>
+    </tr>
+  <%% end -%>
+  </table>
 
-<%%= pagination %><br />
+  <%%= pagination %><br />
+<%% end -%>
 
 <%%= link_to t('<%= singular_name %>.new'), new_<%= singular_name %>_path %>
 
