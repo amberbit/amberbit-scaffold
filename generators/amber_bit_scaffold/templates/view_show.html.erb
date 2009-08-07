@@ -1,9 +1,16 @@
 <% for attribute in attributes -%>
 <p>
+<% if attribute.name =~ /_id\Z/ -%>
+<% association = attribute.column.name.sub(/_id\Z/, '') -%>
+  <b><%%= t('<%= "attribute.#{association}" %>') %>:</b>
+  <%%=h @<%= singular_name %>.<%= association %>.name %>
+<% else -%>
   <b><%%= t('<%= "attribute.#{attribute.column.name}" %>') %>:</b>
   <%%=h @<%= singular_name %>.<%= attribute.name %> %>
+<% end -%>
 </p>
 <% end -%>
 
 <%%= link_to t('edit'), edit_<%= singular_name %>_path(@<%= singular_name %>) %> |
 <%%= link_to t('back'), <%= plural_name %>_path %>
+
