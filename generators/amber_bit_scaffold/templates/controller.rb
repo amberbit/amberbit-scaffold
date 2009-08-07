@@ -1,4 +1,6 @@
 class <%= controller_class_name %>Controller < ApplicationController
+  include Sortable::Controller
+  include Searchable::Controller
   sortable :columns => [:<%= attributes.first.column.name %>]
   searchable :columns => [:<%= attributes.first.column.name %>]
 
