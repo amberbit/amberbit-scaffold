@@ -1,3 +1,21 @@
+<%
+  def attribute_to_association(attribute)
+    attribute.name.sub(/_id\Z/, '')
+  end
+
+  def association_label(association)
+    association.camelize.constantize.column_names.include?('name') ? 'name' : 'id'
+  end
+
+  def process_attribute(attribute)
+    if attribute.name =~ /_id\Z/
+      association = attribute_to_association(attribute)
+      "#{association}.#{association_label(association)}"
+    else
+      "#{attribute.name}"
+    end
+  end
+-%>
 <h1><%%= t('<%= singular_name %>.index') %></h1>
 
 <%% if @<%= plural_name %>.empty? -%>
@@ -18,13 +36,9 @@
 
   <%% for <%= singular_name %> in @<%= plural_name %> -%>
     <tr class="<%%= cycle('odd', 'even') %>">
-      <td><%%=searchable_h <%= singular_name %>.<%= attributes.first.name %> %></td>
+      <td><%%=searchable_h <%= singular_name %>.<%= process_attribute(attributes.first) %> %></td>
 <% for attribute in attributes[1, attributes.size] -%>
-<% if attribute.name =~ /_id\Z/ -%>
-      <td><%%=h <%= singular_name %>.<%= attribute.name.sub(/_id\Z/, '') %>.name %></td>
-<% else -%>
-      <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
-<% end -%>
+      <td><%%=h <%= singular_name %>.<%= process_attribute(attribute) %> %></td>
 <% end -%>
       <td>
         <%%= link_to image_tag('icons/show.gif', :alt => t('show')),
