@@ -9,7 +9,7 @@
       <%%= f.label :<%= attribute.name %>, t('<%= "attribute.#{attribute.column.name}" %>') %>
 <% if attribute.name =~ /_id\Z/ -%>
 <% association = attribute.name.sub(/_id\Z/, '') -%>
-      <%%= f.collection_select :<%= attribute.name %>, <%= association.camelize %>.all, :id, :name,
+      <%%= f.collection_select :<%= attribute.name %>, @<%= association.pluralize %>, :id, :name,
         {:prompt => t('select_prompt')} %>
 <% else -%>
       <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>

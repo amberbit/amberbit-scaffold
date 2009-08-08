@@ -1,8 +1,16 @@
+<%
+  associations = attributes.
+    select { |atr| atr.column.name =~ /_id\Z/ }.
+    map { |atr| atr.column.name.sub(/_id\Z/, '') }
+-%>
 class <%= controller_class_name %>Controller < ApplicationController
   include Sortable::Controller
   include Searchable::Controller
   sortable :columns => [:<%= attributes.first.column.name %>]
   searchable :columns => [:<%= attributes.first.column.name %>]
+<% associations.each do |assoc| -%>
+  before_filter :find_<%= assoc.pluralize %>, :only => [:new, :edit, :create, :update]
+<% end -%>
 
   # GET /<%= plural_name %>
   def index
@@ -57,4 +65,19 @@ class <%= controller_class_name %>Controller < ApplicationController
     flash[:notice] = t('<%= singular_name %>.flash.deleted')
     redirect_to <%= plural_name %>_path
   end
+<% unless associations.empty? -%>
+
+  private
+
+<% associations.each do |assoc| -%>
+  def find_<%= assoc.pluralize %>
+<%
+  klass = assoc.camelize.constantize
+  order = klass.column_names.include?('name') ? 'name' : 'id'
+-%>
+    @<%= assoc.pluralize %> = <%= klass %>.order('<%= order %>').all
+  end
+<% end -%>
+<% end -%>
 end
+
