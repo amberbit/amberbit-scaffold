@@ -14,6 +14,8 @@
 -%>
       <%%= f.collection_select :<%= attribute.name %>, @<%= association.pluralize %>, :id, :<%= label_attribute %>,
         {:prompt => t('select_prompt')} %>
+<% elsif attribute.field_type == :date_select -%>
+      <%%= f.text_field :<%= attribute.name %> %>
 <% else -%>
       <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
 <% end -%>
