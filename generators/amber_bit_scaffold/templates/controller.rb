@@ -16,6 +16,13 @@ class <%= controller_class_name %>Controller < ApplicationController
   def index
     @<%= plural_name %> = <%= class_name %>.order(sortable_order_sql).
       paginate(:page => params[:page], :per_page => 10,
+<%
+  unless associations.empty?
+    includes = associations.map { |a| ":#{a}"}.join(', ')
+    includes = "[#{includes}]" if associations.size > 1
+-%>
+               :include => <%= includes %>,
+<% end -%>
                :conditions => searchable_conditions)
   end
 
