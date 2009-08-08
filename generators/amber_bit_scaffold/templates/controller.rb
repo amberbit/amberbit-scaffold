@@ -76,7 +76,8 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   private
 
-<% associations.each do |assoc| -%>
+<% associations.each_with_index do |assoc, index| -%>
+<%= "\n" if index > 0 -%>
   def find_<%= assoc.pluralize %>
 <%
   klass = assoc.camelize.constantize
