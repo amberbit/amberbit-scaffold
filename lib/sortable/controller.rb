@@ -7,13 +7,16 @@ module Sortable::Controller
   protected
 
   def sortable_by?(column)
-    !column.blank? && sortable_columns.include?(column.to_sym)
+    !column.blank? && sortable_columns.include?(column)
   end
 
   def sortable_order_sql
-    params[:order] =~ /^([\w\d_]+)(-(asc|desc))?$/i
+    params[:order] =~ /^([\w\d_.]+)(-(asc|desc))?$/i
     @sort_by = $1
     @sort_order = $3
+
+    Rails.logger.info  @sort_by.inspect
+    Rails.logger.info  @sort_order.inspect
 
     if @sort_by.blank? || !sortable_by?(@sort_by)
       @sort_by = sortable_default_column

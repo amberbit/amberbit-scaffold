@@ -20,8 +20,15 @@ module Searchable::Controller
     def searchable(options)
       self.searchable_columns = options[:columns]
       self.searchable_conditions_sql = self.searchable_columns.map do |c|
-        "LOWER(`#{c}`) LIKE ?"
+          c = c.to_s.split('.')
+          if c.size == 1
+            "LOWER(`#{c[0]}`) LIKE ?"
+          else
+            "LOWER(#{c[0]}.`#{c[1]}`) LIKE ?"
+          end
+
       end.join(' OR ')
     end
   end
 end
+

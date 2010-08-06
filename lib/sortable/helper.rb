@@ -6,7 +6,7 @@ module Sortable::Helper
 
     sort_order = @sort_order.downcase
 
-    if @sort_by.to_sym == attribute
+    if @sort_by == attribute
       options[:class] ||= ''
       options[:class] << " sorted #{sort_order}"
       # reverse sort order for already selected column
@@ -22,3 +22,4 @@ module Sortable::Helper
     content_tag :th, link, options
   end
 end
+
