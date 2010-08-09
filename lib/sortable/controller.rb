@@ -15,9 +15,6 @@ module Sortable::Controller
     @sort_by = $1
     @sort_order = $3
 
-    Rails.logger.info  @sort_by.inspect
-    Rails.logger.info  @sort_order.inspect
-
     if @sort_by.blank? || !sortable_by?(@sort_by)
       @sort_by = sortable_default_column
     end
